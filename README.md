@@ -1,6 +1,18 @@
 # tmark
 Markdown renderer with templates
 
+
+## Why this Project Exists
+
+This was my situation:
+- Create a website with as much source as possible in Markdown.
+- Style the site with Tailwind CSS.
+- Change the styling of all (or a set of) pages by editing one template.
+- Make sure the tool was trustable and reliable.
+
+I could not find anything that matched this. Maybe I didn't look deep enough.
+
+
 ## License
 
 ```
