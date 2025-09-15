@@ -8,7 +8,10 @@ class HTMLGenerator: public MdParserPlugin{
 
     public:
 
+    HTMLGenerator();
     void addTextElement(const wchar_t *text);
+    void startParagraph();
+    void endParagraph();
     wchar_t *getText();
 };
 

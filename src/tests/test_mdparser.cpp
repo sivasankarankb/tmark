@@ -11,15 +11,24 @@ TEST_CASE(
     plugin.addTextElement(L"text");
 }
 
+TEST_CASE(
+    "Parser plugins accept paragraph start and end events",
+    "[MdParserPlugin]"
+){
+    MdParserPlugin plugin;
+    plugin.startParagraph();
+    plugin.endParagraph();
+}
+
 TEST_CASE("Parsing with no plugin installed is allowed", "[MdParser]"){
     MdParser parser;
     parser.parseLine(L"JustSomeText");
 }
 
-TEST_CASE("Parsing plain text produces text element", "[MdParser]"){
+TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
     parser.addPlugin(&generator);
     parser.parseLine(L"JustSomeText");
-    REQUIRE(wcscmp(generator.getText(), L"JustSomeText") == 0);
+    REQUIRE(wcscmp(generator.getText(), L"<p>JustSomeText</p>") == 0);
 }

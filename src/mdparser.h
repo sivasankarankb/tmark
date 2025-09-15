@@ -6,6 +6,8 @@
 class MdParserPlugin{
     public:
     virtual void addTextElement(const wchar_t *text);
+    virtual void startParagraph();
+    virtual void endParagraph();
 };
 
 class MdParser{

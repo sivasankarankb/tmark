@@ -5,9 +5,19 @@ void MdParserPlugin::addTextElement(const wchar_t *text){
 
 }
 
+void MdParserPlugin::startParagraph(){
+
+}
+
+void MdParserPlugin::endParagraph(){
+    
+}
+
 void MdParser::parseLine(const wchar_t *source){
     if(this->plugin != NULL){
+        plugin->startParagraph();
         plugin->addTextElement(source);
+        plugin->endParagraph();
     }
 }
 
