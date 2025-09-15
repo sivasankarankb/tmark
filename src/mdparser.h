@@ -12,10 +12,13 @@ class MdParserPlugin{
 
 class MdParser{
     MdParserPlugin *plugin = NULL;
+    bool firstLine = true;
+    wchar_t textBuffer[80];
 
     public:
     void addPlugin(MdParserPlugin *plugin);
     void parseLine(const wchar_t *source);
+    void endParsing();
 };
 
 # endif
