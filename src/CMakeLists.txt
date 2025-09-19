@@ -12,6 +12,6 @@ elseif (build_type STREQUAL release)
 
 endif()
 
-add_executable(tmark_tests mdparser.cpp htmlgen.cpp tests/mdparser.cpp tests/htmlgen.cpp)
+add_executable(tmark_tests mdparser.cpp htmlgen.cpp tests/mdparser.cpp tests/htmlgen.cpp tests/html_integration.cpp)
 target_include_directories(tmark_tests PRIVATE .)
 target_link_libraries(tmark_tests PRIVATE Catch2::Catch2WithMain)
