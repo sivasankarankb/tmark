@@ -30,6 +30,57 @@ TEST_CASE("Ending parse with no plugin installed is allowed", "[MdParser]"){
     parser.endParsing();
 }
 
+class ParaLogger: public MdParserPlugin{
+    wchar_t outText[80];
+
+    public:
+
+    ParaLogger(){
+        wcscpy(this->outText, L"\0");
+    }
+
+    void addTextElement(const wchar_t *text){
+        wcscat(this->outText, text);
+        wcscat(this->outText, L",");
+    }
+
+    void startParagraph(){
+        wcscat(this->outText, L"ps,");
+    }
+
+    void endParagraph(){
+        wcscat(this->outText, L"pe,");
+    }
+
+    wchar_t *getText(){
+        return this->outText;
+    }
+};
+
+TEST_CASE("Parsing plain text produces para and text events", "[MdParser]"){
+    MdParser parser;
+    ParaLogger logger;
+    parser.addPlugin(&logger);
+    parser.parseLine(L"JustSomeText");
+    parser.endParsing();
+    REQUIRE(wcscmp(logger.getText(), L"ps,JustSomeText,pe,") == 0);
+}
+
+TEST_CASE("Line breaks become spaces in a paragraph", "[MdParser]"){
+    MdParser parser;
+    ParaLogger logger;
+    parser.addPlugin(&logger);
+    parser.parseLine(L"My line");
+    parser.parseLine(L"was broken");
+    parser.parseLine(L"in three.");
+    parser.endParsing();
+    REQUIRE(
+        wcscmp(
+            logger.getText(), L"ps,My line was broken in three.,pe,"
+        ) == 0
+    );
+}
+
 TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
@@ -39,7 +90,7 @@ TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
     REQUIRE(wcscmp(generator.getText(), L"<p>JustSomeText</p>") == 0);
 }
 
-TEST_CASE("Line breaks become spaces in a paragraph", "[MdParser]"){
+TEST_CASE("Line breaks become spaces in an HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
     parser.addPlugin(&generator);
