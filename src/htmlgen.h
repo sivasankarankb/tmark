@@ -12,7 +12,7 @@ class HTMLGenerator: public MdParserPlugin{
     void addTextElement(const std::wstring &text);
     void startParagraph();
     void endParagraph();
-    std::wstring &getText();
+    const std::wstring &getText();
 };
 
 # endif

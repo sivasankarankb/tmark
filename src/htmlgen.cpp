@@ -13,6 +13,6 @@ void HTMLGenerator::endParagraph(){
     this->text.append(L"</p>");
 }
 
-std::wstring &HTMLGenerator::getText(){
+const std::wstring &HTMLGenerator::getText(){
     return this->text;
 }

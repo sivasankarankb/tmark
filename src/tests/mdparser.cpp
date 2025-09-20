@@ -47,7 +47,7 @@ class ParaLogger: public MdParserPlugin{
         this->outText.append(L"pe,");
     }
 
-    std::wstring &getText(){
+    const std::wstring &getText(){
         return this->outText;
     }
 };
