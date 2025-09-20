@@ -1,4 +1,4 @@
-# include <cwchar>
+# include <string>
 # include "catch2/catch_test_macros.hpp"
 # include "htmlgen.h"
 
@@ -7,8 +7,8 @@ TEST_CASE(
     "[HTMLGenerator]"
 ){
     HTMLGenerator generator;
-    generator.addTextElement(L"text");
-    REQUIRE(wcscmp(generator.getText(), L"text") == 0);
+    generator.addTextElement(std::wstring(L"text"));
+    REQUIRE(generator.getText().compare(L"text") == 0);
 }
 
 TEST_CASE(
@@ -18,5 +18,5 @@ TEST_CASE(
     HTMLGenerator generator;
     generator.startParagraph();
     generator.endParagraph();
-    REQUIRE(wcscmp(generator.getText(), L"<p></p>") == 0);
+    REQUIRE(generator.getText().compare(L"<p></p>") == 0);
 }

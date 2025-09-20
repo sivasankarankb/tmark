@@ -1,18 +1,18 @@
 # ifndef HTMLGEN_H
 # define HTMLGEN_H
 
+# include <string>
 # include "mdparser.h"
 
 class HTMLGenerator: public MdParserPlugin{
-    wchar_t text[80];
+    std::wstring text;
 
     public:
 
-    HTMLGenerator();
-    void addTextElement(const wchar_t *text);
+    void addTextElement(const std::wstring &text);
     void startParagraph();
     void endParagraph();
-    wchar_t *getText();
+    std::wstring &getText();
 };
 
 # endif

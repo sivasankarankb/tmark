@@ -2,10 +2,11 @@
 # define MDPARSER_H
 
 # include <cstddef>
+# include <string>
 
 class MdParserPlugin{
     public:
-    virtual void addTextElement(const wchar_t *text);
+    virtual void addTextElement(const std::wstring &text);
     virtual void startParagraph();
     virtual void endParagraph();
 };
@@ -13,11 +14,11 @@ class MdParserPlugin{
 class MdParser{
     MdParserPlugin *plugin = NULL;
     bool firstLine = true;
-    wchar_t textBuffer[80];
+    std::wstring textBuffer;
 
     public:
     void addPlugin(MdParserPlugin *plugin);
-    void parseLine(const wchar_t *source);
+    void parseLine(const std::wstring &source);
     void endParsing();
 };
 

@@ -1,4 +1,4 @@
-# include <cwchar>
+# include <string>
 # include "catch2/catch_test_macros.hpp"
 # include "mdparser.h"
 
@@ -7,7 +7,7 @@ TEST_CASE(
     "[MdParserPlugin]"
 ){
     MdParserPlugin plugin;
-    plugin.addTextElement(L"text");
+    plugin.addTextElement(std::wstring(L"text"));
 }
 
 TEST_CASE(
@@ -21,7 +21,7 @@ TEST_CASE(
 
 TEST_CASE("Parsing with no plugin installed is allowed", "[MdParser]"){
     MdParser parser;
-    parser.parseLine(L"JustSomeText");
+    parser.parseLine(std::wstring(L"JustSomeText"));
 }
 
 TEST_CASE("Ending parse with no plugin installed is allowed", "[MdParser]"){
@@ -30,28 +30,24 @@ TEST_CASE("Ending parse with no plugin installed is allowed", "[MdParser]"){
 }
 
 class ParaLogger: public MdParserPlugin{
-    wchar_t outText[80];
+    std::wstring outText;
 
     public:
 
-    ParaLogger(){
-        wcscpy(this->outText, L"\0");
-    }
-
-    void addTextElement(const wchar_t *text){
-        wcscat(this->outText, text);
-        wcscat(this->outText, L",");
+    void addTextElement(const std::wstring &text){
+        this->outText.append(text);
+        this->outText.append(L",");
     }
 
     void startParagraph(){
-        wcscat(this->outText, L"ps,");
+        this->outText.append(L"ps,");
     }
 
     void endParagraph(){
-        wcscat(this->outText, L"pe,");
+        this->outText.append(L"pe,");
     }
 
-    wchar_t *getText(){
+    std::wstring &getText(){
         return this->outText;
     }
 };
@@ -60,22 +56,20 @@ TEST_CASE("Parsing plain text produces para and text events", "[MdParser]"){
     MdParser parser;
     ParaLogger logger;
     parser.addPlugin(&logger);
-    parser.parseLine(L"JustSomeText");
+    parser.parseLine(std::wstring(L"JustSomeText"));
     parser.endParsing();
-    REQUIRE(wcscmp(logger.getText(), L"ps,JustSomeText,pe,") == 0);
+    REQUIRE(logger.getText().compare(L"ps,JustSomeText,pe,") == 0);
 }
 
 TEST_CASE("Line breaks become spaces in a paragraph", "[MdParser]"){
     MdParser parser;
     ParaLogger logger;
     parser.addPlugin(&logger);
-    parser.parseLine(L"My line");
-    parser.parseLine(L"was broken");
-    parser.parseLine(L"in three.");
+    parser.parseLine(std::wstring(L"My line"));
+    parser.parseLine(std::wstring(L"was broken"));
+    parser.parseLine(std::wstring(L"in three."));
     parser.endParsing();
     REQUIRE(
-        wcscmp(
-            logger.getText(), L"ps,My line was broken in three.,pe,"
-        ) == 0
+        logger.getText().compare(L"ps,My line was broken in three.,pe,") == 0
     );
 }

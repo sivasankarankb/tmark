@@ -1,22 +1,18 @@
-# include <cwchar>
+# include <string>
 # include "htmlgen.h"
 
-HTMLGenerator::HTMLGenerator(){
-    wcscpy(this->text, L"\0");;
-}
-
-void HTMLGenerator::addTextElement(const wchar_t *text){
-    wcscat(this->text, text);
+void HTMLGenerator::addTextElement(const std::wstring &text){
+    this->text.append(text);
 }
 
 void HTMLGenerator::startParagraph(){
-    wcscat(this->text, L"<p>");
+    this->text.append(L"<p>");
 }
 
 void HTMLGenerator::endParagraph(){
-    wcscat(this->text, L"</p>");
+    this->text.append(L"</p>");
 }
 
-wchar_t *HTMLGenerator::getText(){
+std::wstring &HTMLGenerator::getText(){
     return this->text;
 }

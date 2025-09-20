@@ -1,4 +1,4 @@
-# include <cwchar>
+# include <string>
 # include "catch2/catch_test_macros.hpp"
 # include "mdparser.h"
 # include "htmlgen.h"
@@ -7,22 +7,22 @@ TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
     parser.addPlugin(&generator);
-    parser.parseLine(L"JustSomeText");
+    parser.parseLine(std::wstring(L"JustSomeText"));
     parser.endParsing();
-    REQUIRE(wcscmp(generator.getText(), L"<p>JustSomeText</p>") == 0);
+    REQUIRE(generator.getText().compare(L"<p>JustSomeText</p>") == 0);
 }
 
 TEST_CASE("Line breaks become spaces in an HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
     parser.addPlugin(&generator);
-    parser.parseLine(L"My line");
-    parser.parseLine(L"was broken");
-    parser.parseLine(L"in three.");
+    parser.parseLine(std::wstring(L"My line"));
+    parser.parseLine(std::wstring(L"was broken"));
+    parser.parseLine(std::wstring(L"in three."));
     parser.endParsing();
     REQUIRE(
-        wcscmp(
-            generator.getText(), L"<p>My line was broken in three.</p>"
+        generator.getText().compare(
+            L"<p>My line was broken in three.</p>"
         ) == 0
     );
 }

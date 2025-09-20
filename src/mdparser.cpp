@@ -1,8 +1,8 @@
 # include <cstddef>
-# include <cwchar>
+# include <string>
 # include "mdparser.h"
 
-void MdParserPlugin::addTextElement(const wchar_t *text){
+void MdParserPlugin::addTextElement(const std::wstring &text){
 
 }
 
@@ -14,7 +14,7 @@ void MdParserPlugin::endParagraph(){
     
 }
 
-void MdParser::parseLine(const wchar_t *source){
+void MdParser::parseLine(const std::wstring &source){
     if(this->plugin != NULL){
         if(this->firstLine == true){
             this->plugin->startParagraph();
@@ -22,10 +22,10 @@ void MdParser::parseLine(const wchar_t *source){
         }
 
         else{
-            wcscat(this->textBuffer, L" ");
+            this->textBuffer.append(L" ");
         }
 
-        wcscat(this->textBuffer, source);
+        this->textBuffer.append(source);
     }
 }
 
