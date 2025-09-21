@@ -52,6 +52,25 @@ class ParaLogger: public MdParserPlugin{
     }
 };
 
+TEST_CASE(
+    "Paragraph logger outputs text element",
+    "[ParaLogger]"
+){
+    ParaLogger logger;
+    logger.addTextElement(std::wstring(L"text"));
+    REQUIRE(logger.getText().compare(L"text,") == 0);
+}
+
+TEST_CASE(
+    "Paragraph logger outputs paragraph start and end",
+    "[ParaLogger]"
+){
+    ParaLogger logger;
+    logger.startParagraph();
+    logger.endParagraph();
+    REQUIRE(logger.getText().compare(L"ps,pe,") == 0);
+}
+
 TEST_CASE("Parsing plain text produces para and text events", "[MdParser]"){
     MdParser parser;
     ParaLogger logger;
