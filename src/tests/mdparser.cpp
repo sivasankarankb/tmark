@@ -55,7 +55,7 @@ class ParaLogger: public MdParserPlugin{
 TEST_CASE("Parsing plain text produces para and text events", "[MdParser]"){
     MdParser parser;
     ParaLogger logger;
-    parser.addPlugin(&logger);
+    parser.addPlugin(logger);
     parser.parseLine(std::wstring(L"JustSomeText"));
     parser.endParsing();
     REQUIRE(logger.getText().compare(L"ps,JustSomeText,pe,") == 0);
@@ -64,7 +64,7 @@ TEST_CASE("Parsing plain text produces para and text events", "[MdParser]"){
 TEST_CASE("Line breaks become spaces in a paragraph", "[MdParser]"){
     MdParser parser;
     ParaLogger logger;
-    parser.addPlugin(&logger);
+    parser.addPlugin(logger);
     parser.parseLine(std::wstring(L"My line"));
     parser.parseLine(std::wstring(L"was broken"));
     parser.parseLine(std::wstring(L"in three."));

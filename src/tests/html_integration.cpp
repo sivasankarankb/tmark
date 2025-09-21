@@ -6,7 +6,7 @@
 TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
-    parser.addPlugin(&generator);
+    parser.addPlugin(generator);
     parser.parseLine(std::wstring(L"JustSomeText"));
     parser.endParsing();
     REQUIRE(generator.getText().compare(L"<p>JustSomeText</p>") == 0);
@@ -15,7 +15,7 @@ TEST_CASE("Parsing plain text produces HTML paragraph", "[MdParser]"){
 TEST_CASE("Line breaks become spaces in an HTML paragraph", "[MdParser]"){
     MdParser parser;
     HTMLGenerator generator;
-    parser.addPlugin(&generator);
+    parser.addPlugin(generator);
     parser.parseLine(std::wstring(L"My line"));
     parser.parseLine(std::wstring(L"was broken"));
     parser.parseLine(std::wstring(L"in three."));

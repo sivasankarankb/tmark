@@ -17,7 +17,7 @@ class MdParser{
     std::wstring textBuffer;
 
     public:
-    void addPlugin(MdParserPlugin *plugin);
+    void addPlugin(MdParserPlugin &plugin);
     void parseLine(const std::wstring &source);
     void endParsing();
 };

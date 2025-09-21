@@ -29,8 +29,8 @@ void MdParser::parseLine(const std::wstring &source){
     }
 }
 
-void MdParser::addPlugin(MdParserPlugin *plugin){
-    this->plugin = plugin;
+void MdParser::addPlugin(MdParserPlugin &plugin){
+    this->plugin = &plugin;
 }
 
 void MdParser::endParsing(){
